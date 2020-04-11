@@ -25,6 +25,9 @@ const handler = async (event, context) => {
 
   const { id, url } = await get(slug);
   await register(id, sourceIp, userAgent, countryCode);
+
+  /* eslint-disable-next-line */
+  console.log(`Resolved ${slug} to ${url}`);
   return withStatusCode(status.FOUND)(url);
 };
 
