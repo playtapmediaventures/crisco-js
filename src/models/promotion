@@ -1,0 +1,41 @@
+const { query } = require('../utils/db');
+
+const QUERY = `
+SELECT p.id, COALESCE(p.custom_slug, p.slug) slug, l.url
+FROM promotions p
+JOIN media m
+  ON m.id = p.medium_id
+JOIN links l
+  ON l.medium_id = m.id
+WHERE p.custom_slug = $1 or p.slug = $1
+UNION ALL
+SELECT p.id, COALESCE(p.custom_slug, p.slug) slug, l.url
+FROM promotions p
+JOIN media m
+  ON m.id = p.medium_id
+JOIN links l
+  ON l.medium_id = m.id
+WHERE p.custom_slug = 'imagine'
+LIMIT 1;`;
+
+const {
+  env: { AFFILIATE_TOKEN }
+} = process;
+
+const get = async slug => {
+  const {
+    rows: [{ id, url = '' }]
+  } = await query(QUERY, [slug]);
+
+  const geoUrl = url.replace(/\/\/itunes\./, '//geo.itunes.');
+  const affiliatizedItunesUrl = `${geoUrl}&at=${AFFILIATE_TOKEN}&ct=${id}&app=itunes`;
+
+  return {
+    id,
+    url: affiliatizedItunesUrl
+  };
+};
+
+module.exports = {
+  get
+};

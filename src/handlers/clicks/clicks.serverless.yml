@@ -1,0 +1,4 @@
+process:
+  handler: src/handlers/clicks/process.handler
+  events:
+    - http: get /{path}

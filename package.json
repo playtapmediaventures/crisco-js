@@ -1,0 +1,107 @@
+{
+  "name": "crisco-js",
+  "version": "1.0.0",
+  "description": "NodeJS Lambda version of crisco redirection",
+  "main": "y",
+  "jest": {
+    "verbose": true,
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "**/*.js",
+      "!**/*.test.js",
+      "!coverage/**/*"
+    ],
+    "rootDir": "src"
+  },
+  "eslintConfig": {
+    "env": {
+      "node": true,
+      "jest": true
+    },
+    "extends": [
+      "airbnb-base",
+      "prettier"
+    ],
+    "overrides": [
+      {
+        "files": [
+          "*.test.js",
+          "features/**/*.js"
+        ],
+        "rules": {
+          "import/no-extraneous-dependencies": "off"
+        }
+      }
+    ],
+    "plugins": [
+      "prettier"
+    ],
+    "rules": {
+      "prettier/prettier": [
+        "error"
+      ]
+    }
+  },
+  "eslintIgnore": [
+    "coverage",
+    "node_modules"
+  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "NODE_ENV=production lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx}": [
+      "yarn prettier:fix",
+      "yarn lin:fix"
+    ]
+  },
+  "prettier": {
+    "printWidth": 100,
+    "singleQuote": true
+  },
+  "dependencies": {
+    "dotenv": "6.1.0",
+    "http-status": "1.3.1",
+    "node-postgres": "^0.1.4",
+    "pg": "^7.18.2"
+  },
+  "devDependencies": {
+    "aws-sdk": "2.361.0",
+    "eslint": "5.10.0",
+    "eslint-config-airbnb-base": "13.1.0",
+    "eslint-config-prettier": "3.3.0",
+    "eslint-plugin-import": "2.14.0",
+    "eslint-plugin-prettier": "3.0.0",
+    "husky": "^4.2.5",
+    "jest": "^25.0.0",
+    "lint-staged": "^10.1.3",
+    "nock": "11.7.0",
+    "prettier": "1.15.3",
+    "pretty-quick": "^2.0.1",
+    "serverless": "1.67.0",
+    "serverless-offline": "6.1.2",
+    "serverless-webpack": "5.3.1",
+    "timekeeper": "2.1.2",
+    "webpack": "^4.41.4",
+    "webpack-node-externals": "1.7.2"
+  },
+  "scripts": {
+    "build": "serverless webpack",
+    "cucumber": "cucumber-js",
+    "deploy": "sls deploy --verbose",
+    "lint": "eslint .",
+    "lint:fix": "npm run lint --silent -- --fix",
+    "prettier:fix": "pretty-quick --staged",
+    "sls": "serverless",
+    "start": "sls offline start",
+    "pretest": "npm run lint",
+    "test": "jest",
+    "test:all": "npm run cucumber && jest"
+  },
+  "keywords": [],
+  "author": "Ariel Perez",
+  "license": "MIT",
+  "private": true
+}

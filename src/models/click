@@ -1,0 +1,13 @@
+const { query } = require('../utils/db');
+
+const STATEMENT = `
+INSERT INTO clicks (promotion_id, request_ip, user_agent, country_code, created_at, updated_at, redirected_at)
+VALUES ($1, $2, $3, $4, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+`;
+
+const register = async (promotionId, requestIp = null, userAgent = null, countryCode = '') =>
+  query(STATEMENT, [promotionId, requestIp, userAgent, countryCode]);
+
+module.exports = {
+  register
+};
